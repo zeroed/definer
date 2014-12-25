@@ -1,0 +1,22 @@
+{
+    "words": [
+        {
+            "haunted": "adj. Of a location, frequented by a ghost or ghosts. adj. Obsessed (by an idea, threat, etc.). adj. Showing a feeling of being disturbed.",
+            "lurk": "v. To lie in wait, as in ambush. v. To move furtively; sneak. v. To exist unobserved or unsuspected: danger lurking around every bend.",
+            "loom": "v. To come into view as a massive, distorted, or indistinct image: \"I faced the icons that loomed through the veil of incense\" ( Fergus M. Bordewich). See Synonyms at appear. v. To appear to the mind in a magnified and threatening form: \"Stalin looms over the whole human tragedy of 1930-1933\" (Robert Conquest). v. To seem imminent; impend: Revolution loomed but the aristocrats paid no heed.",
+            "profligate": "adj. Given over to dissipation; dissolute. adj. Recklessly wasteful; wildly extravagant. n. A profligate person; a wastrel.",
+            "unsavory": "adj. Distasteful or disagreeable: an unsavory task. adj. Not savory: an unsavory meal. adj. Morally offensive: an unsavory scandal.",
+            "maim": "v. To disable or disfigure, usually by depriving of the use of a limb or other part of the body. See Synonyms at batter1. v. To make imperfect or defective; impair.",
+            "plight": "n. A situation, especially a bad or unfortunate one. See Synonyms at predicament. v. To promise or bind by a solemn pledge, especially to betroth. v. To give or pledge (one's word or oath, for example). ",
+            "exerted": "v. To put to use or effect; put forth: exerted all my strength to move the box. v. To bring to bear; exercise: exert influence. v. To put (oneself) to strenuous effort: exerted ourselves mightily to raise funds.",
+            "conjuror": "n. Variant of conjurer. n. One that performs magic tricks; a magician. n. A sorcerer or sorceress.",
+            "reeking": "v. To smoke, steam, or fume. v. To be pervaded by something unpleasant: \"This document ... reeks of self-pity and self-deception\" ( Christopher Hitchens). v. To give off or become permeated with a strong unpleasant odor: \"Grandma, who reeks of face powder and lilac water\" ( Garrison Keillor). ",
+            "": "",
+        }
+    ],
+    "url":"https://duckduckgo.com/?q=define+example&t=canonical&ia=definition",
+    "url":"https://duckduckgo.com/html/?q=define+example&t=canonical&ia=definition",
+    "url":"http://dictionary.reference.com/browse/example?s=t",
+    "selector":"$(\"div.zci__body ul\").first().text()",
+    "selector":"$(\"div.def-list\").first().text()"
+}
