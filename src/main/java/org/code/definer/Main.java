@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -41,7 +43,8 @@ public class Main {
 	public static void main(String[] args) {
 		if (args.length == 1 && args[0].length() > 0) {
 			try {
-				new Main(args[0]).getDefinition();
+				String jsonDefinition = new Main(args[0]).getDefinition();
+				logger.info(jsonDefinition);
 			} catch (Exception e) {
 				logger.info(String.format("Unable to retrieve your definition: %s.",
 						e.getMessage()));
@@ -80,7 +83,7 @@ public class Main {
 						definitions.stream()
 						.map(Element::text)
 						.collect(Collectors.joining("\n"))));
-				return definitions.text();
+				return makeJsonFromDefinition(word, definitions.text());
 			} else {
 				return NOT_FOUND;
 			}
