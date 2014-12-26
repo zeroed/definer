@@ -89,4 +89,12 @@ public class Main {
 			throw e;
 		}
 	}
+	
+	private String makeJsonFromDefinition(String word, String definition) {
+		try {
+			return new JSONObject().put(word, definition).toString();
+		} catch (JSONException e) {
+			return String.format("{\"ERROR\":\"error parsing definition for %s\"}", word);
+		}
+	}
 }
