@@ -31,20 +31,23 @@ public class Main {
 	private final static String CSS_DEFINITION_SET = "def-set";
 	private final static String NOT_FOUND = "There aren't definitions for your word. Perhaps...";
 
-	private String word;
+	private String[] words;
 	
-	private Main(String word) {
-		this.word = word;
+	private Main(String[] words) {
+		this.words = sanitizeArgs(words);
 	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		if (args.length == 1 && args[0].length() > 0) {
+		if (args.length > 0) {
 			try {
-				String jsonDefinition = new Main(args[0]).getDefinition();
-				logger.info(jsonDefinition);
+				Definitions definitions = new Definitions(
+						new Main(args).getDefinitions());
+				logger.info("\n");
+				logger.info(definitions);
+				logger.info("\n ~ ");
 			} catch (Exception e) {
 				logger.info(String.format("Unable to retrieve your definition: %s.",
 						e.getMessage()));
@@ -67,8 +70,19 @@ public class Main {
 		System.exit(1);
 	}
 
-	private String getDefinition() throws IOException {
-		logger.info(String.format("Retrieving definition of \"%s\"...", word));
+	private String[] getDefinitions() throws IOException {
+		return Arrays.stream(words).map(w -> {
+			try {
+				return getDefinition(w);
+			} catch (IOException e) {
+				logger.error(String.format("Error defining %s", w));
+				return null;
+			}
+		}).toArray(String[]::new);
+	}
+	
+	private String getDefinition(String word) throws IOException {
+		logger.trace(String.format("Retrieving definition of \"%s\"...", word));
 		Document doc = null;
 		try {
 			doc = Jsoup.connect(String.format(QUERY_URL_PATTERN, word)).get();
