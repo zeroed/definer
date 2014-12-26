@@ -90,10 +90,10 @@ public class Main {
 			if (elements.size() > 0) {
 				Elements definitions = elements.get(0)
 						.getElementsByClass(CSS_DEFINITION_SET);
-				logger.info(String.format("There are %d definition(s) for %s:", 
+				logger.info(String.format("There are %d definition(s) for \"%s\".", 
 						definitions.size(), 
 						word));
-				logger.info(String.format(
+				logger.trace(String.format(
 						definitions.stream()
 						.map(Element::text)
 						.collect(Collectors.joining("\n"))));
