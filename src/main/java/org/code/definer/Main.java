@@ -100,6 +100,17 @@ public class Main {
 			return String.format("{\"ERROR\":\"error parsing definition for %s\"}", word);
 		}
 	}
+	
+	private String[] sanitizeArgs(String[] args) {
+		return Arrays.
+				stream(args)
+				.filter(s -> s.length() > 0)
+				.map(s -> {
+					return s.replaceAll("[^a-zA-Z]", "");
+				})
+				.toArray(String[]::new);
+	}
+	
 	static class Definitions {
 		private String[] definitions;
 		private static final String STORAGE_FILE = "";
