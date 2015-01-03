@@ -29,7 +29,7 @@ public class Main {
 			+ "%s?s=t";
 	private final static String CSS_DEFINITION_LIST = "def-list";
 	private final static String CSS_DEFINITION_SET = "def-set";
-	private final static String NOT_FOUND = "There aren't definitions for your word. Perhaps...";
+	private final static String NOT_FOUND = "ERROR: There aren't definitions for %s. Perhaps a mispelling?";
 
 	private String[] words;
 	
@@ -99,7 +99,7 @@ public class Main {
 						.collect(Collectors.joining("\n"))));
 				return makeJsonFromDefinition(word, definitions.text());
 			} else {
-				return NOT_FOUND;
+				return makeJsonFromDefinition(word, String.format(NOT_FOUND, word));
 			}
 		} catch (IOException e) {
 			logger.error(e.getMessage());
