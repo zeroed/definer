@@ -25,6 +25,8 @@ public class Parser {
 
 		try (
 				JsonParser parser = Json.createParser(inputStream)) {
+			Stack<String> currentObjects = new Stack<String>();
+			Stack<String> currentArrays = new Stack<String>();
 			while (parser.hasNext()) {
 				Event event = parser.next();
 				// System.out.println(event.name());
