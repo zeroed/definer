@@ -161,7 +161,9 @@
         {"vast": "1. of very great area or extent; immense: the vast reaches of outer space. 2. of very great size or proportions; huge; enormous: vast piles of rubble left in the wake of the war. 3. very great in number, quantity, amount, etc.: vast sums of money. 4. very great in degree, intensity, etc.: an artisan of vast skill. 5. Literary. an immense or boundless expanse or space."},
         {"savor": "1. the quality in a substance that affects the sense of taste or of smell. 2. a particular taste or smell. 3. distinctive quality or property. 4. power to excite or interest. 5. Archaic. repute. 6. to have savor, taste, or odor. 7. to exhibit the peculiar characteristics; smack (often followed by of): His business practices savor of greed. 8. to give a savor to; season; flavor. 9. to perceive by taste or smell, especially with relish: to savor the garden's odors. 10. to give oneself to the enjoyment of: to savor the best in life."}
     ],
-    "url":"http://dictionary.reference.com/browse/example?s=t",
-    "selector":"$(\"div.zci__body ul\").first().text()",
-    "selector":"$(\"div.def-list\").first().text()"
+    "config": {
+	    "url":"http://dictionary.reference.com/browse/example?s=t",
+	    "selector":"$(\"div.zci__body ul\").first().text()",
+	    "selector":"$(\"div.def-list\").first().text()"
+	}
 }
