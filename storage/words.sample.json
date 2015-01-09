@@ -5,11 +5,21 @@
 			"2_two":"2222",
 			"3_three":"3333"
 	},
+	"words": [
+    	{"0": 
+    		[
+    			{"a":"aaa"},
+    			{"b":"bbb"}
+    		]
+    	},
+        {"1": "asd"},
+        {"2": "asd"},
+        {"3": "asd"}
+	],        
     "array": [
     	{"w_0":"definition"},
     	{"w_1":"definition"},
-    	{"w_2":"definition"},
-    	{"w_3":"definition"}
+    	{"w_2":"definition"}
     ],
 	"last_element":{
 		"one":"1111",
