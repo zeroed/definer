@@ -122,4 +122,18 @@ public class Parser {
 		}
 	}
 
+	private void eventuallyAddTheNewWord(String currentKey) {
+		final int BEFORE = -1;
+		final int EQUAL = 0;
+		final int AFTER = 1;
+		int comparison = currentKey.compareToIgnoreCase(newWord);
+		System.out.printf("The current keys is %s and the new word is %s = %d\n", currentKey, newWord, comparison);
+		if (comparison < 0) {
+			System.out.printf("%s precedes %s.\n", currentKey, newWord);
+		} else if (comparison > 0) {
+			System.out.printf("%s follows %s.\n", currentKey, newWord);
+		} else {
+			System.out.printf("%s equal %s.\n", currentKey, newWord);
+		}
+	}
 }
