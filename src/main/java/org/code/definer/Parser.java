@@ -24,22 +24,29 @@ public class Parser {
 		InputSource is = new InputSource(reader);
 		is.setEncoding("UTF-8");
 
-		try (
-				JsonParser parser = Json.createParser(inputStream)) {
+		try (JsonParser parser = Json.createParser(inputStream)) {
+			
 			Stack<String> currentObjects = new Stack<String>();
+			Stack<String> currentKeys = new Stack<String>();
 			Stack<String> currentArrays = new Stack<String>();
+			currentObjects.push("root");
+			
 			while (parser.hasNext()) {
 				Event event = parser.next();
-//				System.out.printf("Current Object: %s.\n", currentObject);
-				System.out.println(currentObjects);
+				System.out.printf("On %s event the current object stacks is %s.\n", 
+						event.name().toLowerCase(),
+						currentObjects);
+				
 				switch (event) {
 				case START_OBJECT: {
-					// System.out.printf("opening...\n");
 					break;
 				}
 				case END_OBJECT: {
-					System.out.printf("ending %s...\n", currentObjects.peek());
-					currentObjects.pop();
+					if (currentArrays.isEmpty()) {
+						currentObjects.pop();
+					} else {
+						System.out.printf("Skip closing because in %s...\n", currentArrays.peek());
+					}
 					break;
 				}
 				case START_ARRAY: {
@@ -48,6 +55,7 @@ public class Parser {
 					break;
 				}
 				case END_ARRAY: {
+					currentObjects.pop();
 					String endingArray = currentArrays.pop();
 					System.out.printf("exiting the Array (%s)...\n", endingArray);
 					break;
@@ -65,12 +73,12 @@ public class Parser {
 						break;
 					default:
 						System.out.printf(" - %s: ", parser.getString()); 
-//						System.out.printf("Config %s:  ", parser.getString()); 
 					}
 					break;
 				}
 				case VALUE_STRING: {
-					System.out.printf("%s\n", parser.getString()); 
+					currentObjects.pop();
+					System.out.printf("%s\n", parser.getString());
 					break;
 				}
 				default:
