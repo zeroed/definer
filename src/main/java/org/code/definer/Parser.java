@@ -90,5 +90,36 @@ public class Parser {
 		} 
 	}
 
+	/**
+	 * OMG!
+	 * Refactor this crap...
+	 * 
+	 * @param parser
+	 * @return
+	 */
+	private Event goNext(JsonParser parser) {
+		try {
+			return parser.next();
+		} catch (JsonParsingException parsingException) {
+			if (parsingException.getMessage().contains("Invalid token=CURLYCLOSE")) {
+				System.out.printf("Handled a trailing comma ending on multiple... Invalid token=CURLYCLOSE\n");
+				return goNext(parser);
+			} else if (parsingException.getMessage().contains("Invalid token=CURLYOPEN")) {
+				System.out.printf("Handled a trailing comma ending on multiple... Invalid token=CURLYOPEN\n");
+				return goNext(parser);
+			} else if (parsingException.getMessage().contains("Invalid token=SQUARECLOSE")) {
+				System.out.printf("Handled a trailing comma ending on array... Invalid token=SQUARECLOSE\n");
+				return goNext(parser);
+			} else if (parsingException.getMessage().contains("Invalid token=SQUAREOPEN")) {
+				System.out.printf("Handled a trailing comma ending on array... Invalid token=SQUAREOPEN\n");
+				return goNext(parser);
+			} else if (parsingException.getMessage().contains("Invalid token=COLON")) {
+				System.out.printf("Handled a trailing comma ending on array... Invalid token=COLON\n");
+			} else {
+				throw parsingException;
+			}
+			return goNext(parser);
+		}
+	}
 
 }
