@@ -1,0 +1,19 @@
+{
+	"single": "value",
+	"multiple": {
+			"1_one":"1111",
+			"2_two":"2222",
+			"3_three":"3333"
+	},
+    "array": [
+    	{"w_0":"definition"},
+    	{"w_1":"definition"},
+    	{"w_2":"definition"},
+    	{"w_3":"definition"}
+    ],
+	"last_element":{
+		"one":"1111",
+		"two":"2222",
+		"three":"3333"
+	}
+}
