@@ -1,29 +1,13 @@
 {
-	"single": "value",
-	"multiple": {
-			"1_one":"1111",
-			"2_two":"2222",
-			"3_three":"3333"
-	},
 	"words": [
-    	{"apple": 
-    		[
-    			{"a":"aaa"},
-    			{"b":"bbb"}
-    		]
-    	},
+    	{"apple": "asd" },
         {"banana": "asd"},
-        {"orange": "asd"},
-        {"grape": "asd"}
-	],        
-    "array": [
-    	{"w_0":"definition"},
-    	{"w_1":"definition"},
-    	{"w_2":"definition"}
-    ],
-	"last_element":{
-		"one":"1111",
-		"two":"2222",
-		"three":"3333"
+        {"grape": "asd"},
+        {"orange": "asd"}
+	],
+	"config": {
+		"a1_one":"1111",
+		"b2_two":"2222",
+		"c3_three":"3333"
 	}
 }
