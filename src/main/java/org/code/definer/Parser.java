@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 import javax.json.Json;
@@ -18,13 +21,16 @@ import org.xml.sax.InputSource;
 public class Parser {
 
 	private String filename;
-	private String newWord;
+	private Word newWord;
+	private LinkedList<Word> words;
+	private boolean notYetAdded = true;
 
-	public Parser(String filename, String newWord) throws FileNotFoundException, UnsupportedEncodingException {
+	public Parser(String filename, Word newWord) throws FileNotFoundException, UnsupportedEncodingException {
 
 		this.filename = filename;
 		this.newWord = newWord;
-
+		
+		System.out.printf("loading %s...\n", this.filename);
 		File file = new File(filename);
 		FileInputStream inputStream = new FileInputStream(file);
 		InputStreamReader reader = new InputStreamReader(inputStream,"UTF-8");
@@ -37,19 +43,22 @@ public class Parser {
 			Stack<String> currentObjects = new Stack<String>();
 			Stack<String> currentArrays = new Stack<String>();
 			currentObjects.push("root");
-			int wordsCount = 0;
+			words = new LinkedList<Word>();
+			String currentName;
+			String currentDefinition;
+			currentName = currentDefinition = null;
+			boolean readingWords = false;
+			boolean readingConfig = false;
 
 			while (parser.hasNext()) {
 				Event event = goNext(parser);
 
-				System.out.printf("On %s event the current object stacks is %s.\n", 
-						event.name().toLowerCase(),
-						currentObjects);
+				// System.out.printf("On %s event the current object stacks is %s.\n", event.name().toLowerCase(), currentObjects);
 
 				switch (event) {
 					case START_OBJECT: {
 						if (!currentArrays.isEmpty() && "words".equalsIgnoreCase(currentArrays.peek())) {
-							wordsCount += 1;
+							// Start loading a word...
 						}
 						break;
 					}
@@ -57,40 +66,50 @@ public class Parser {
 						if (currentArrays.isEmpty()) {
 							currentObjects.pop();
 						} else {
-							System.out.printf("Skip closing because in %s...\n", currentArrays.peek());
-							if ("words".equalsIgnoreCase(currentArrays.peek())) eventuallyAddTheNewWord(currentKey);
+							// System.out.printf("Skip closing because in %s...\n", currentArrays.peek());
+							if ("words".equalsIgnoreCase(currentArrays.peek())) {
+								loadWord(currentName, currentDefinition);
+								currentName = currentDefinition = null;
+							}
 						}
 						break;
 					}
 					case START_ARRAY: {
 						currentArrays.push(currentObjects.peek());
-						System.out.printf("entering the Array (%s)...\n", currentArrays.peek());
+						if ("words".equalsIgnoreCase(currentArrays.peek())) {
+							readingWords = true;
+						}
 						break;
 					}
 					case END_ARRAY: {
 						currentObjects.pop();
 						String endingArray = currentArrays.pop();
-						System.out.printf("exiting the Array (%s).\n", endingArray);
+						if ("words".equalsIgnoreCase(endingArray)) {
+							readingWords = false;
+							System.out.printf("Loaded %d words.\n", words.size());
+						}
 						break;
 					}
 					case KEY_NAME: {
 						currentKey = currentObjects.push(parser.getString());
-						System.out.printf("reading %s...\n", currentObjects.peek());
 						switch (currentObjects.peek()) {
 						case "words":
-							// System.out.printf("Words founded. (%s)\n", parser.getString());
+							System.out.printf("loading Words (%s).\n", currentKey);
 							break;
 						case "config":
-							System.out.printf("Config founded. (%s)\n", currentKey);
+							System.out.printf("loading Config (%s).\n", currentKey);
+							readingConfig = true;
 							break;
 						default:
+							if (readingWords) currentName = parser.getString();
 							System.out.printf(" - %s: ", parser.getString()); 
 						}
 						break;
 					}
 					case VALUE_STRING: {
-						currentObjects.pop();
+						if (readingWords) currentDefinition = parser.getString();
 						System.out.printf("%s\n", parser.getString());
+						currentObjects.pop();
 						break;
 					}
 					default: {
@@ -99,8 +118,8 @@ public class Parser {
 					}
 				}
 			}
-			System.out.printf("There are %d words.\n", wordsCount);
 		}
+		System.out.printf("Words: %s", words);
 	}
 
 	/**
@@ -135,18 +154,25 @@ public class Parser {
 		}
 	}
 
-	private void eventuallyAddTheNewWord(String currentKey) {
+	private void archiveNewWord() {
+		words.add(newWord);
+		notYetAdded = false;
+	}
+	
+	private void loadWord(String name, String definition) {
 		final int BEFORE = -1;
 		final int EQUAL = 0;
 		final int AFTER = 1;
-		int comparison = currentKey.compareToIgnoreCase(newWord);
-		System.out.printf("The current keys is %s and the new word is %s = %d\n", currentKey, newWord, comparison);
+
+		int comparison = name.compareToIgnoreCase(newWord.getName());
 		if (comparison < 0) {
-			System.out.printf("%s precedes %s.\n", currentKey, newWord);
+			// System.out.printf("%s precedes %s.\n", name, newWord.getName());
 		} else if (comparison > 0) {
-			System.out.printf("%s follows %s.\n", currentKey, newWord);
+			// System.out.printf("%s follows %s.\n", name, newWord.getName());
+			if (notYetAdded) archiveNewWord();
 		} else {
-			System.out.printf("%s equal %s.\n", currentKey, newWord);
+			// System.out.printf("%s equal %s.\n", name, newWord.getName());
 		}
+		words.add(new Word(name, definition));
 	}
 }
