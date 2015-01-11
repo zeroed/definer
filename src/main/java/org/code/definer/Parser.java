@@ -130,6 +130,7 @@ public class Parser {
 				}
 			}
 		}
-		System.out.printf("Words: %s", words);
+		System.out.printf("Words: %s\n", words);
+		new Writer(words, config).write();
 	}
 }
