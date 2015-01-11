@@ -3,7 +3,9 @@
  */
 package org.code.definer;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -39,14 +41,17 @@ public class Main {
 	
 	/**
 	 * @param args
+	 * @throws UnsupportedEncodingException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+		
 		if (args.length > 0) {
 			try {
 				Definitions definitions = new Definitions(
 						new Main(args).getDefinitions());
 				logger.info("\n");
-				logger.info(definitions);
+				logger.info(definitions.persistOnFile());
 				logger.info("\n ~ ");
 			} catch (Exception e) {
 				logger.info(String.format("Unable to retrieve your definition: %s.",
