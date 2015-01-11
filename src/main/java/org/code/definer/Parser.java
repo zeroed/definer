@@ -23,7 +23,7 @@ public class Parser {
 	private String filename;
 	private Word newWord;
 	private LinkedList<Word> words;
-	private boolean notYetAdded = true;
+//	private boolean notYetAdded = true;
 
 	public Parser(String filename, Word newWord) throws FileNotFoundException, UnsupportedEncodingException {
 
@@ -68,7 +68,7 @@ public class Parser {
 						} else {
 							// System.out.printf("Skip closing because in %s...\n", currentArrays.peek());
 							if ("words".equalsIgnoreCase(currentArrays.peek())) {
-								loadWord(currentName, currentDefinition);
+								words.add(new Word(currentName, currentDefinition));
 								currentName = currentDefinition = null;
 							}
 						}
@@ -154,25 +154,25 @@ public class Parser {
 		}
 	}
 
-	private void archiveNewWord() {
-		words.add(newWord);
-		notYetAdded = false;
-	}
-	
-	private void loadWord(String name, String definition) {
-		final int BEFORE = -1;
-		final int EQUAL = 0;
-		final int AFTER = 1;
-
-		int comparison = name.compareToIgnoreCase(newWord.getName());
-		if (comparison < 0) {
-			// System.out.printf("%s precedes %s.\n", name, newWord.getName());
-		} else if (comparison > 0) {
-			// System.out.printf("%s follows %s.\n", name, newWord.getName());
-			if (notYetAdded) archiveNewWord();
-		} else {
-			// System.out.printf("%s equal %s.\n", name, newWord.getName());
-		}
-		words.add(new Word(name, definition));
-	}
+//	private void archiveNewWord() {
+//		words.add(newWord);
+//		notYetAdded = false;
+//	}
+//	
+//	private void loadWord(String name, String definition) {
+//		final int BEFORE = -1;
+//		final int EQUAL = 0;
+//		final int AFTER = 1;
+//
+//		int comparison = name.compareToIgnoreCase(newWord.getName());
+//		if (comparison < 0) {
+//			// System.out.printf("%s precedes %s.\n", name, newWord.getName());
+//		} else if (comparison > 0) {
+//			// System.out.printf("%s follows %s.\n", name, newWord.getName());
+//			if (notYetAdded) archiveNewWord();
+//		} else {
+//			// System.out.printf("%s equal %s.\n", name, newWord.getName());
+//		}
+//		words.add(new Word(name, definition));
+//	}
 }
