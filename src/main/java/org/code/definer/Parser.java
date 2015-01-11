@@ -23,7 +23,6 @@ public class Parser {
 	private String filename;
 	private Word newWord;
 	private LinkedList<Word> words;
-//	private boolean notYetAdded = true;
 	private HashMap<String, String> config;
 
 	public Parser(String filename, Word newWord) throws FileNotFoundException, UnsupportedEncodingException {
@@ -53,9 +52,7 @@ public class Parser {
 			boolean readingConfig = false;
 
 			while (parser.hasNext()) {
-				Event event = goNext(parser);
-
-				// System.out.printf("On %s event the current object stacks is %s.\n", event.name().toLowerCase(), currentObjects);
+				Event event = parser.next();
 
 				switch (event) {
 					case START_OBJECT: {
@@ -73,7 +70,6 @@ public class Parser {
 						if (currentArrays.isEmpty()) {
 							currentObjects.pop();
 						} else {
-							// System.out.printf("Skip closing because in %s...\n", currentArrays.peek());
 							if ("words".equalsIgnoreCase(currentArrays.peek())) {
 								words.add(new Word(currentName, currentDefinition));
 								currentName = currentDefinition = null;
@@ -135,58 +131,4 @@ public class Parser {
 		}
 		System.out.printf("Words: %s", words);
 	}
-
-	/**
-	 * OMG!
-	 * Refactor this crap...
-	 * 
-	 * @param parser
-	 * @return
-	 */
-	private Event goNext(JsonParser parser) {
-		try {
-			return parser.next();
-		} catch (JsonParsingException parsingException) {
-			if (parsingException.getMessage().contains("Invalid token=CURLYCLOSE")) {
-				System.out.printf("Handled a trailing comma ending on multiple... Invalid token=CURLYCLOSE\n");
-				return goNext(parser);
-			} else if (parsingException.getMessage().contains("Invalid token=CURLYOPEN")) {
-				System.out.printf("Handled a trailing comma ending on multiple... Invalid token=CURLYOPEN\n");
-				return goNext(parser);
-			} else if (parsingException.getMessage().contains("Invalid token=SQUARECLOSE")) {
-				System.out.printf("Handled a trailing comma ending on array... Invalid token=SQUARECLOSE\n");
-				return goNext(parser);
-			} else if (parsingException.getMessage().contains("Invalid token=SQUAREOPEN")) {
-				System.out.printf("Handled a trailing comma ending on array... Invalid token=SQUAREOPEN\n");
-				return goNext(parser);
-			} else if (parsingException.getMessage().contains("Invalid token=COLON")) {
-				System.out.printf("Handled a trailing comma ending on array... Invalid token=COLON\n");
-			} else {
-				throw parsingException;
-			}
-			return goNext(parser);
-		}
-	}
-
-//	private void archiveNewWord() {
-//		words.add(newWord);
-//		notYetAdded = false;
-//	}
-//	
-//	private void loadWord(String name, String definition) {
-//		final int BEFORE = -1;
-//		final int EQUAL = 0;
-//		final int AFTER = 1;
-//
-//		int comparison = name.compareToIgnoreCase(newWord.getName());
-//		if (comparison < 0) {
-//			// System.out.printf("%s precedes %s.\n", name, newWord.getName());
-//		} else if (comparison > 0) {
-//			// System.out.printf("%s follows %s.\n", name, newWord.getName());
-//			if (notYetAdded) archiveNewWord();
-//		} else {
-//			// System.out.printf("%s equal %s.\n", name, newWord.getName());
-//		}
-//		words.add(new Word(name, definition));
-//	}
 }
