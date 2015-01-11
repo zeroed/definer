@@ -32,6 +32,21 @@ public class Definitions {
 		return false;
 	}
 	
+	private List<Word> getWords() {
+		return Arrays.stream(definitions)
+				.map(s -> {
+					JSONObject w;
+					try {
+						w = new JSONObject(s);
+					String name = (String) w.keys().next();
+					return new Word(name, (String) w.get(name));
+					} catch (Exception e) {
+						e.printStackTrace();
+						return null;
+					}
+				}).collect(Collectors.toList());
+	}
+	
 	@Override
 	public String toString() {
 		return Arrays.stream(definitions)
