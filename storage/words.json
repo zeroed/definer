@@ -157,6 +157,7 @@
     ],
     "config": {
 	    "url":"http://dictionary.reference.com/browse/example?s=t",
-	    "selector":"$(\"div.def-list\").first().text()"
+	    "selector":"$(\"div.def-list\").first().text()",
+	    "file_location":"/home/eddie/Downloads/words"
 	}
 }
