@@ -65,7 +65,7 @@ public class Parser {
 					case END_OBJECT: {
 						if (readingConfig) {
 							readingConfig = false;
-							System.out.printf("Config done: %s.\n", config);
+							//System.out.printf("Config done: %s.\n", config);
 						}
 
 						if (currentArrays.isEmpty()) {
@@ -96,7 +96,7 @@ public class Parser {
 								      return lhs.getName().compareTo(rhs.getName());  
 								    }
 								});
-							System.out.printf("Loaded %d words.\n", words.size());
+							System.out.printf("loaded %d words.\n", words.size());
 						}
 						break;
 					}
@@ -112,13 +112,13 @@ public class Parser {
 							break;
 						default:
 							currentName = parser.getString();
-							System.out.printf(" > %s: ", currentName); 
+							//System.out.printf(" > %s: ", currentName); 
 						}
 						break;
 					}
 					case VALUE_STRING: {
 						currentDefinition = parser.getString();
-						System.out.printf("%s\n", currentDefinition);
+						//System.out.printf("%s\n", currentDefinition);
 						if (readingConfig) config.put(currentName, currentDefinition);
 						currentObjects.pop();
 						break;
@@ -130,7 +130,7 @@ public class Parser {
 				}
 			}
 		}
-		System.out.printf("Words: %s\n", words);
+		System.out.printf("now there are %d words.\n", words.size());
 		new Writer(words, config).write();
 	}
 }
