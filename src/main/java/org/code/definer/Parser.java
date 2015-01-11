@@ -30,6 +30,9 @@ public class Parser {
 		this.filename = filename;
 		System.out.printf("loading %s...\n", this.filename);
 		File file = new File(filename);
+		if (!file.exists()) {
+			throw new RuntimeException(String.format("File %s missing!", this.filename));
+		}
 		FileInputStream inputStream = new FileInputStream(file);
 		InputStreamReader reader = new InputStreamReader(inputStream,"UTF-8");
 		InputSource is = new InputSource(reader);
