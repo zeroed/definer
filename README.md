@@ -55,3 +55,6 @@ I wanna something like this:
     "selector":"$(\"div.def-list\").first().text()"
 }
 ```
+
+
+`mvn clean compile assembly:single`
