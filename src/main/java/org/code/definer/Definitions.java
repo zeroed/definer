@@ -3,7 +3,10 @@
  */
 package org.code.definer;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.codehaus.jettison.json.JSONObject;
@@ -24,8 +27,16 @@ public class Definitions {
 		return definitions;
 	}
 	
-	public void persistOnFile() {
-		//TODO: implementme!
+	public boolean persistOnFile() {
+		try {
+			new Parser("/home/eddie/Downloads/words.json", 
+					getWords());
+			// TODO: this return is blasphemy
+			return true;
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return false;
+		} 
 	}
 	
 	public boolean addToWords() {
