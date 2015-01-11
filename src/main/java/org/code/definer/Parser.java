@@ -22,15 +22,12 @@ import org.xml.sax.InputSource;
 public class Parser {
 
 	private String filename;
-	private List<Word> newWords;
 	private LinkedList<Word> words;
 	private HashMap<String, String> config;
 
 	public Parser(String filename, List<Word> newWords) throws FileNotFoundException, UnsupportedEncodingException {
 
 		this.filename = filename;
-		this.newWords = newWords;
-		
 		System.out.printf("loading %s...\n", this.filename);
 		File file = new File(filename);
 		FileInputStream inputStream = new FileInputStream(file);
