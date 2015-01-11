@@ -5,15 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 import javax.json.Json;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
-import javax.json.stream.JsonParsingException;
 
 import org.xml.sax.InputSource;
 
@@ -21,14 +22,14 @@ import org.xml.sax.InputSource;
 public class Parser {
 
 	private String filename;
-	private Word newWord;
+	private List<Word> newWords;
 	private LinkedList<Word> words;
 	private HashMap<String, String> config;
 
-	public Parser(String filename, Word newWord) throws FileNotFoundException, UnsupportedEncodingException {
+	public Parser(String filename, List<Word> newWords) throws FileNotFoundException, UnsupportedEncodingException {
 
 		this.filename = filename;
-		this.newWord = newWord;
+		this.newWords = newWords;
 		
 		System.out.printf("loading %s...\n", this.filename);
 		File file = new File(filename);
@@ -89,7 +90,7 @@ public class Parser {
 						String endingArray = currentArrays.pop();
 						if ("words".equalsIgnoreCase(endingArray)) {
 							readingWords = false;
-							words.add(newWord);
+							words.addAll(newWords);
 							words.sort(new Comparator<Word>() {
 								    public int compare(Word lhs, Word rhs) {  
 								      return lhs.getName().compareTo(rhs.getName());  
