@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 import java.util.Stack;
 
 import javax.json.Json;
@@ -24,6 +24,7 @@ public class Parser {
 	private Word newWord;
 	private LinkedList<Word> words;
 //	private boolean notYetAdded = true;
+	private HashMap<String, String> config;
 
 	public Parser(String filename, Word newWord) throws FileNotFoundException, UnsupportedEncodingException {
 
@@ -44,6 +45,7 @@ public class Parser {
 			Stack<String> currentArrays = new Stack<String>();
 			currentObjects.push("root");
 			words = new LinkedList<Word>();
+			config = new HashMap<String, String>();
 			String currentName;
 			String currentDefinition;
 			currentName = currentDefinition = null;
@@ -63,6 +65,11 @@ public class Parser {
 						break;
 					}
 					case END_OBJECT: {
+						if (readingConfig) {
+							readingConfig = false;
+							System.out.printf("Config done: %s.\n", config);
+						}
+
 						if (currentArrays.isEmpty()) {
 							currentObjects.pop();
 						} else {
@@ -86,6 +93,12 @@ public class Parser {
 						String endingArray = currentArrays.pop();
 						if ("words".equalsIgnoreCase(endingArray)) {
 							readingWords = false;
+							words.add(newWord);
+							words.sort(new Comparator<Word>() {
+								    public int compare(Word lhs, Word rhs) {  
+								      return lhs.getName().compareTo(rhs.getName());  
+								    }
+								});
 							System.out.printf("Loaded %d words.\n", words.size());
 						}
 						break;
@@ -101,14 +114,15 @@ public class Parser {
 							readingConfig = true;
 							break;
 						default:
-							if (readingWords) currentName = parser.getString();
-							System.out.printf(" - %s: ", parser.getString()); 
+							currentName = parser.getString();
+							System.out.printf(" > %s: ", currentName); 
 						}
 						break;
 					}
 					case VALUE_STRING: {
-						if (readingWords) currentDefinition = parser.getString();
-						System.out.printf("%s\n", parser.getString());
+						currentDefinition = parser.getString();
+						System.out.printf("%s\n", currentDefinition);
+						if (readingConfig) config.put(currentName, currentDefinition);
 						currentObjects.pop();
 						break;
 					}
