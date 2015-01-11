@@ -51,7 +51,7 @@ public class Main {
 				Definitions definitions = new Definitions(
 						new Main(args).getDefinitions());
 				logger.info("\n");
-				logger.info(definitions.persistOnFile());
+				definitions.persistOnFile();
 				logger.info("\n ~ ");
 			} catch (Exception e) {
 				logger.info(String.format("Unable to retrieve your definition: %s.",

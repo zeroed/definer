@@ -71,7 +71,7 @@ public class Writer {
 			file.flush();
 			file.close();
 	 
-			System.out.printf("written: %s", filename);
+			System.out.printf("written %s\n", filename);
 			return true;
 		} catch (IOException | JSONException e) {
 			System.out.printf("Error writing file: %s", filename);
